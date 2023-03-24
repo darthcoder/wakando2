@@ -2,7 +2,7 @@ import unittest
 
 # create a task class
 class Task:
-    def __init__(self, name, priority, due_date, status, assigned_to, project, task_id):
+    def __init__(self, name, priority, due_date, status, assigned_to, project, task_id, tags=None):
         self.name = name
         self.priority = priority
         self.due_date = due_date
@@ -10,6 +10,7 @@ class Task:
         self.assigned_to = assigned_to
         self.project = project
         self.task_id = task_id
+        self.tags = tags or []
 
     def __str__(self):
         return self.name
@@ -64,6 +65,20 @@ class Task:
 
     def get_task_id(self):
         return self.task_id
+    
+    def set_tags(self, tags):
+        self.tags = tags
+    
+    def get_tags(self):
+        return self.tags
+    
+    def add_tag(self, tag):
+        self.tags.append(tag)
+
+    def remove_tag(self, tag):
+        self.tags.remove(tag)
+
+    
     
 
 # create a task list class
@@ -122,6 +137,82 @@ class TaskList:
                 return task
         return None
     
+    def get_task_by_tag(self, task_tag):
+        for task in self.task_list:
+            if task_tag in task.get_tags():
+                return task
+        return None
+    
+    def get_task_by_tags(self, task_tags):
+        for task in self.task_list:
+            if task_tags == task.get_tags():
+                return task
+        return None
+    
+
+    
+
+# create a task manager class   
+class TaskManager:
+    def __init__(self):
+        self.task_list = TaskList()
+    
+    def add_task(self, task):
+        self.task_list.add_task(task)
+    
+    def remove_task(self, task):
+        self.task_list.remove_task(task)
+    
+    def get_task_list(self):
+        return self.task_list.get_task_list()
+    
+    def get_task_by_id(self, task_id):
+        return self.task_list.get_task_by_id(task_id)
+    
+    def get_task_by_name(self, task_name):
+        return self.task_list.get_task_by_name(task_name)
+    
+    def get_task_by_priority(self, task_priority):
+        return self.task_list.get_task_by_priority(task_priority)
+    
+    def get_task_by_due_date(self, task_due_date):
+        return self.task_list.get_task_by_due_date(task_due_date)
+    
+    def get_task_by_status(self, task_status):
+        return self.task_list.get_task_by_status(task_status)
+    
+    def get_task_by_assigned_to(self, task_assigned_to):
+        return self.task_list.get_task_by_assigned_to(task_assigned_to)
+    
+    def get_task_by_project(self, task_project):
+        return self.task_list.get_task_by_project(task_project)
+    
+    def get_task_by_tag(self, task_tag):
+        for task in self.task_list.get_task_list():
+            if task_tag in task.get_tags():
+                return task
+        return None
+    
+    def get_task_by_tags(self, task_tags):
+        for task in self.task_list.get_task_list():
+            if task_tags == task.get_tags():
+                return task
+        return None
+    
+    def get_task_by_tags_and(self, task_tags):
+        for task in self.task_list.get_task_list():
+            if all(tag in task.get_tags() for tag in task_tags):
+                return task
+        return None
+    
+    def get_task_by_tags_or(self, task_tags):
+        for task in self.task_list.get_task_list():
+            if any(tag in task.get_tags() for tag in task_tags):
+                return task
+        return None
+    
+    
+
 
 # I have a few questions about this code:
 # 1. Is there a better way to do this? I feel like there is a better way to do this.
